@@ -1,0 +1,2 @@
+e/x^cos(x)/sin(x)
+e/x^cos(x)
