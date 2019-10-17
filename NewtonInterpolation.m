@@ -1,21 +1,30 @@
-function NewtonInterpolation (x, y, xTil)
+function NewtonInterpolation (x, y)
   difDiv = ComputeDivDiff(x, y);
-  n = columns(x)
+  n = columns(x);
   sum = 0;
-  for i = 1 : n
-    partial = 1;
-    partial *= difDiv(1, i);
-    for j = 1 : i - 1
-      partial *= (xTil - x(j))
+  min = x(1);
+  max = x(length(x));
+  step = 0.0001;
+  idx = 1;
+  for f = min : step : max
+    xs(idx) = f;
+    ys(idx) = 0;
+    for i = 1 : n
+      partial = 1;
+      partial *= difDiv(1, i);
+      for j = 1 : i - 1
+        partial *= (xs(idx) - x(j));
+      endfor
+      ys(idx) += partial;
     endfor
-    sum += partial;
+    idx += 1;
   endfor
-  sum
+  plot(xs', ys', '.');
+  
 endfunction
 
 function retval = ComputeDivDiff(x, y)
   retval(:, 1) = y';
-  
   n = columns(x);
   for col = 2 : n
     for row = 1 : n - (col - 1)
